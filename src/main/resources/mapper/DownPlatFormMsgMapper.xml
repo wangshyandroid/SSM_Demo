@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Dao.DownPlatFormMsgMapper">
+    <select id="findDownPlatformMsgList"
+            resultType="Entity.DownPlatFormMsgInfo">
+        SELECT
+        T.F_ID AS id,
+        T.F_INFO_ID AS infoId,
+        T.F_CONTENT AS content,
+        T.F_STATUS AS status,
+        date_format(T.F_CRETAE_TIME,'%Y-%m-%d %T') AS cretaeTime,
+        T.F_OBJECT_TYPE AS objectType,
+        T.F_OBJECT_ID AS objectId,
+        T.F_TGROUP_ID AS tgroupId,
+        T.F_LASTSENDTIME AS lastsendtime,
+        T.F_ANSTIME AS anstime,
+        T.F_INFO_ANS AS infoAns,
+        T.F_SUPERVISION AS count,
+        T.F_COUNT
+        FROM
+        T_DOWN_PLATFORM_MSG_INFO T
+        <where>
+            <if test="msgInfo.content!=null">
+                AND T.F_CONTENT LIKE '%${msgInfo.content}%'
+            </if>
+            <if test="msgInfo.start_time != null and msgInfo.end_time != null">
+                AND T.F_CRETAE_TIME BETWEEN #{msgInfo.cretae_time} AND #{msgInfo.end_time}
+            </if>
+
+        </where>
+    </select>
+</mapper>

@@ -2,6 +2,8 @@ package Entity;
 
 import java.util.List;
 
+import static com.sun.tools.doclets.formats.html.markup.HtmlStyle.title;
+
 /**
  * Created by wangshy on 17/12/1.
  */
@@ -13,7 +15,7 @@ public class MenuBean {
     private String ingredients;
     private String burden;
     private String albums;
-    private List<StepsBean> stepsBeanList;
+    private List<StepsBean> steps;
 
     public int getId() {
         return id;
@@ -72,11 +74,11 @@ public class MenuBean {
     }
 
     public List<StepsBean> getStepsBeanList() {
-        return stepsBeanList;
+        return steps;
     }
 
     public void setStepsBeanList(List<StepsBean> stepsBeanList) {
-        this.stepsBeanList = stepsBeanList;
+        this.steps = stepsBeanList;
     }
 
     @Override
@@ -90,7 +92,7 @@ public class MenuBean {
                 ", ingredients='" + ingredients + '\'' +
                 ", burden='" + burden + '\'' +
                 ", albums='" + albums + '\'' +
-                ", stepsBeanList=" + stepsBeanList +
+                ", stepsBeanList=" + steps +
                 '}';
     }
 }

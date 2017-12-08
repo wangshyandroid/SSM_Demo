@@ -5,9 +5,10 @@ package Entity;
  */
 public class StepsBean {
     private int id;
-    private int menu_id;
     private String img;
     private String step;
+
+    private int menu_id;
 
     public int getId() {
         return id;
@@ -15,14 +16,6 @@ public class StepsBean {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getMenu_id() {
-        return menu_id;
-    }
-
-    public void setMenu_id(int menu_id) {
-        this.menu_id = menu_id;
     }
 
     public String getImg() {
@@ -41,11 +34,18 @@ public class StepsBean {
         this.step = step;
     }
 
+    public int getMenu_id() {
+        return menu_id;
+    }
+
+    public void setMenu_id(int menu_id) {
+        this.menu_id = menu_id;
+    }
+
     @Override
     public String toString() {
         return "StepsBean{" +
                 "id=" + id +
-                ", menu_id=" + menu_id +
                 ", img='" + img + '\'' +
                 ", step='" + step + '\'' +
                 '}';

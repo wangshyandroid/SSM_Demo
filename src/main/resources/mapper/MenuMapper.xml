@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Dao.MenuMapper">
+    <select id="getMenuBean" resultType="Entity.MenuBean">
+        select * from MENU
+    </select>
+
+    <resultMap id="getMenuList" type="Entity.MenuBean">
+        <id column="id" property="id"/>
+
+        <result column="title" property="title"/>
+        <result column="tags" property="tags"/>
+        <result column="imtro" property="imtro"/>
+        <result column="ingredients" property="ingredients"/>
+        <result column="burden" property="burden"/>
+        <result column="albums" property="albums"/>
+        <result column="title" property="title"/>
+        <collection property="stepsBeanList" column="menu_id" ofType="Entity.StepsBean">
+            <id column="id" property="id"/>
+            <result property="img" column="img"/>
+            <result property="step" column="step"/>
+        </collection>
+    </resultMap>
+
+    <select id="getMenuBeanList" resultMap="getMenuList">
+           select m.*,s.img,s.step from MENU m LEFT JOIN STEPS s on m.ID = s.MENU_ID;
+    </select>
+
+    <insert id="insertMenu" parameterType="Entity.MenuBean"
+            useGeneratedKeys="true">
+        insert into `mybatis`.`MENU`
+                ( albums, burden, imtro, id, ingredients, title, tags)
+         values
+                ( #{albums}, #{burden}, #{imtro}, #{id}, #{ingredients}, #{title}, #{tags})
+    </insert>
+
+
+    <select id="findMenuyByMenuTitle" resultType="Entity.MenuBean" parameterType="java.lang.String">
+        SELECT  albums,burden,imtro,id,ingredients,title,tags FROM  MENU WHERE title LIKE '${value}%'
+    </select>
+
+    <insert id="inserSteps" parameterType="java.util.List" useGeneratedKeys="true">
+        insert into
+        `mybatis`.`steps` ( `img`, `menu_id`, `step`)
+        values
+        <foreach collection="lists" item="list" index="index" separator=",">
+            (#{list.img},#{list.menu_id},#{list.step})
+        </foreach>
+    </insert>
+
+</mapper>

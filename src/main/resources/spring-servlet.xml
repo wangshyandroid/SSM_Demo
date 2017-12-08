@@ -20,12 +20,23 @@
 
     <!-- 启动包扫描功能，以便注册带有@Controllers、@service、@repository、@Component等注解的类成为spring的bean -->
     <context:component-scan base-package="Controllers"/>
+
+    <!--注解映射器 -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+
+    <!--注解适配器 -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
+
     <!-- 对模型视图名称的解析，在请求时模型视图名称添加前后缀 -->
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  <!-- 支持JSP视图解析 -->
+        <property name="viewClass"
+                  value="org.springframework.web.servlet.view.JstlView"/> <!-- JstlView表示JSP模板页面需要使用JSTL标签库，所以classpath中必须包含jstl的相关jar 包。此属性可以不设置，默认为JstlView。-->
         <property name="prefix" value="/"/>    <!-- 前缀 -->
+        <!--  前缀+逻辑视图名+后缀，逻辑视图名需要在controller中返回ModelAndView指定，比如逻辑视图名为hello，-->
+        <!--则最终返回的jsp视图地址 “/hello.jsp”-->
         <property name="suffix" value=".jsp"/>    <!-- 后缀 -->
     </bean>
+
     <!-- 访问静态文件（jpg,js,css）的方法 -->
     <!--<mvc:resources location="/files/" mapping="/files/**" />-->
     <!--<mvc:resources location="/scripts/" mapping="/scripts/**" />-->

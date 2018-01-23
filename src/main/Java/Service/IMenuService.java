@@ -1,24 +1,29 @@
 package Service;
 
 import Entity.MenuBean;
-import Entity.StepsBean;
-import org.apache.ibatis.annotations.Param;
+import Entity.StepsBeana;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wangshy on 17/12/1.
  */
 public interface IMenuService {
-    List<MenuBean> getMenuBean();
+    List<MenuBean> getMenuBean(int page, int rn);
 
 
     List<MenuBean> getMenuBeanList();
 
     List<MenuBean> getMenuByMenuNane(String menuTitle);
 
-    int insertMenu(MenuBean bean);
+    int insertMenu(String bean, int page, int rn);
 
-    int inserSteps(List<StepsBean> beanList);
+    int insertMenu(int page, int l_id, int rn);
 
+    int inserSteps(List<StepsBeana> beanList);
+
+    String updateMenu(int page, int rn);
+
+    Map<String, Integer> findLabellingList();
 }

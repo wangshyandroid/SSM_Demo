@@ -1,10 +1,10 @@
 package Controllers;
 
-import Entity.MenuBean;
-import Entity.StepsBean;
+import Entity.StepsBeana;
 import Service.IMenuService;
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,8 +23,8 @@ public class MenuController {
 
     @PostMapping
     @RequestMapping("/getMenuBean")
-    public String getMenuBean() {
-        return JSON.toJSONString(service.getMenuBean());
+    public String getMenuBean(int page, int rn) {
+        return JSON.toJSONString(service.getMenuBean(page, rn));
     }
 
     @PostMapping
@@ -40,35 +40,84 @@ public class MenuController {
         return JSON.toJSONString(stringMap);
     }
 
+    @PostMapping
+    @RequestMapping("updateMenu")
+    public String updateMenu(int page, int rn) {
+        int pages = page;
+        String str = "A";
+        while ("A".equals(str)) {
+            str = service.updateMenu(pages, rn);
+            pages++;
+            System.out.println("----->>>" + pages);
+            if (pages == 400) {
+                System.out.println("请求到第200页了");
+                str = "写入成功";
+                return "请求到第200页了";
+            }
+        }
+        return str;
+    }
 
     @PostMapping
     @RequestMapping("/getMenuBean2")
     public String getMenuBean2() {
-        return JSON.toJSONString(service.getMenuBean() + "getMenuBean2");
+        return JSON.toJSONString("getMenuBean2");
     }
 
-    @RequestMapping("/setMenuBean")
+    @RequestMapping("/insertMenuBean")
     @PostMapping
-    public String setMenuBean(@RequestBody MenuBean bean) {
-        MenuBean beans = new MenuBean();
-        beans.setId(46);
-        beans.setAlbums("Albums");
-        beans.setBurden("burden");
-        beans.setImtro("imtro");
-        beans.setTags("tags");
-        beans.setTitle("title");
-        beans.setIngredients("ingredients");
+    public Object setMenuBean(String bean, int page, int rn) {
+        int pages = page;
+        int a = 1;
+        StringBuffer msg = new StringBuffer();
+        while (a > 0) {
+            a = service.insertMenu(bean, pages, rn);
+            if (a == 2) {
+            } else if (a == 1) {
+                pages++;
+//                msg.append("---->>>>写入完成,继续查询当前页为" + pages + "---->>>>\n");
+                System.out.println(msg);
+            } else if (a == 3) {
+                a = 0;
+                msg.append("---->>>>写入完成,当前查询的条数大于或等于总条数 当前页为" + pages + "---->>>>\n");
+            } else {
+                msg.append("---->>>>当前页为" + pages + "---->>>>\n");
+            }
+            System.out.println(msg.toString());
+        }
+        return JSON.toJSONString("---当前状态为:" + msg + "-------" + pages + "------->>>l_id = " + bean);
+    }
 
-//        int a = service.insertMenu(beans);
-        return "a";
+    @RequestMapping("/insertCidMenuBean")
+    @PostMapping
+    public Object insertCidMenuBean(int page, int l_id, int rn) {
+//        int pages = page;
+//        int a = 1;
+        StringBuffer msg = new StringBuffer();
+//        while (a > 0) {
+//            a = service.insertMenu(pages, l_id, rn);
+//            if (a == 2) {
+//            } else if (a == 1) {
+//                pages++;
+//                msg.append("---->>>>写入完成,继续查询当前页为" + pages+"---->>>>\n");
+//                System.out.println(msg);
+//            } else if (a == 3) {
+//                a = 0;
+//                msg.append("---->>>>写入完成,当前查询的条数大于或等于总条数 当前页为" + pages+"---->>>>\n");
+//            } else {
+//                msg.append("---->>>>当前页为" + pages+"---->>>>\n");
+//            }
+//            System.out.println(msg.toString());
+//        }
+        return JSON.toJSONString("---当前状态为:" + msg + "------->>>l_id = " + l_id);
     }
 
     @RequestMapping("/setStepsBean")
     @PostMapping
     public String setStepsBean() {
-        List<StepsBean> beanList = new ArrayList<StepsBean>();
+        List<StepsBeana> beanList = new ArrayList<StepsBeana>();
         for (int i = 0; i < 11; i++) {
-            StepsBean bean = new StepsBean();
+            StepsBeana bean = new StepsBeana();
             bean.setImg("img" + i);
             bean.setStep("step" + i);
             bean.setMenu_id(46);
@@ -84,4 +133,11 @@ public class MenuController {
 
         return "";
     }
+
+    @RequestMapping("findMenuConfigList")
+    @PostMapping()
+    public Object findMenuConfigList() {
+        return JSON.toJSONString(service.findLabellingList());
+    }
+
 }

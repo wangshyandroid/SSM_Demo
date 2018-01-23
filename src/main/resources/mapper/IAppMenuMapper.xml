@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Dao.IAppMenuMapper">
+
+    <resultMap id="resultMapMenuList" type="Entity.AppMenuBean">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="imtro" property="imtro"/>
+        <result column="ingredients" property="ingredients"/>
+        <result column="burden" property="burden"/>
+        <result column="album" property="album"/>
+        <collection property="tags" ofType="Entity.LabellingBean">
+            <result property="id" column="l_id"/>
+            <result property="name" column="l_name"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="findMenuList" resultMap="resultMapMenuList">
+        SELECT a.title,a.id,a.imtro, a.burden, a.album ,a.ingredients ,LA.l_id,LA.l_name,LA.C_ID
+            FROM (SELECT * FROM MENU  limit #{page},10 ) a
+            LEFT JOIN MENU_CONFIG mc ON mc.m_id = a.id
+            inner JOIN labelling la ON MC.l_id = LA.l_id;
+    </select>
+</mapper>

@@ -213,6 +213,11 @@
             <artifactId>mybatis-spring</artifactId>
             <version>1.2.3</version>
         </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+            <version>2.1-gamma</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>wangshy</finalName>

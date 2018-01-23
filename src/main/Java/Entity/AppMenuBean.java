@@ -1,21 +1,26 @@
 package Entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by wangshy on 17/12/1.
+ * @PackageName:
+ * @FileName:
+ * @Description:
+ * @Author: wangshy
+ * @company: 上海势航网络科技有限公司
+ * @Date 17/12/22
  */
-public class MenuBean {
+public class AppMenuBean implements Serializable {
+
+    private static final long serialVersionUID = -5809782578272943999L;
     private int id;
     private String title;
-    private String tags;
+    private List<LabellingBean> tags;
     private String imtro;
     private String ingredients;
     private String burden;
-    private List<String> albums;
     private String album;
-    private List<StepsBeana> steps;
-
 
     public int getId() {
         return id;
@@ -33,11 +38,11 @@ public class MenuBean {
         this.title = title;
     }
 
-    public String getTags() {
+    public List<LabellingBean> getTags() {
         return tags;
     }
 
-    public void setTags(String tags) {
+    public void setTags(List<LabellingBean> tags) {
         this.tags = tags;
     }
 
@@ -65,28 +70,12 @@ public class MenuBean {
         this.burden = burden;
     }
 
-    public List<String> getAlbums() {
-        return albums;
-    }
-
-    public void setAlbums(List<String> albums) {
-        this.albums = albums;
-    }
-
     public String getAlbum() {
         return album;
     }
 
     public void setAlbum(String album) {
         this.album = album;
-    }
-
-    public List<StepsBeana> getSteps() {
-        return steps;
-    }
-
-    public void setSteps(List<StepsBeana> steps) {
-        this.steps = steps;
     }
 
 }

@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Dao.MenuMapper">
     <select id="getMenuBean" resultType="Entity.MenuBean">
-        select * from MENU
+        select * from MENU limit #{page},#{rn}
     </select>
 
     <resultMap id="getMenuList" type="Entity.MenuBean">
@@ -15,31 +15,37 @@
         <result column="imtro" property="imtro"/>
         <result column="ingredients" property="ingredients"/>
         <result column="burden" property="burden"/>
-        <result column="albums" property="albums"/>
+        <result column="album" property="album"/>
         <result column="title" property="title"/>
-        <collection property="stepsBeanList" column="menu_id" ofType="Entity.StepsBean">
-            <id column="id" property="id"/>
+        <collection property="steps" ofType="Entity.StepsBeana">
+            <result property="s_id" column="s_id"/>
             <result property="img" column="img"/>
             <result property="step" column="step"/>
         </collection>
     </resultMap>
 
     <select id="getMenuBeanList" resultMap="getMenuList">
-           select m.*,s.img,s.step from MENU m LEFT JOIN STEPS s on m.ID = s.MENU_ID;
+           select m.*,s.img,s.step ,s.id as s_id from MENU m inner JOIN STEPS s on m.ID = s.MENU_ID;
     </select>
 
     <insert id="insertMenu" parameterType="Entity.MenuBean"
             useGeneratedKeys="true">
         insert into `mybatis`.`MENU`
-                ( albums, burden, imtro, id, ingredients, title, tags)
+                ( album, burden, imtro, id, ingredients, title, tags)
          values
-                ( #{albums}, #{burden}, #{imtro}, #{id}, #{ingredients}, #{title}, #{tags})
+                ( #{album}, #{burden}, #{imtro}, #{id}, #{ingredients}, #{title}, #{tags})
     </insert>
 
 
     <select id="findMenuyByMenuTitle" resultType="Entity.MenuBean" parameterType="java.lang.String">
-        SELECT  albums,burden,imtro,id,ingredients,title,tags FROM  MENU WHERE title LIKE '${value}%'
+        SELECT  album,burden,imtro,id,ingredients,title,tags FROM  MENU WHERE title LIKE '${value}%'
     </select>
+
+
+    <select id="findMenuyByMenuId" resultType="Entity.MenuBean" parameterType="java.lang.Integer">
+        SELECT  album,burden,imtro,id,ingredients,title,tags FROM  MENU WHERE id = #{id}
+    </select>
+
 
     <insert id="inserSteps" parameterType="java.util.List" useGeneratedKeys="true">
         insert into
@@ -49,5 +55,17 @@
             (#{list.img},#{list.menu_id},#{list.step})
         </foreach>
     </insert>
+    <insert id="inserMenuConfig">
+        INSERT INTO MENU_CONFIG(m_id,l_id) VALUE (#{config.mId},#{config.lId});
+    </insert>
 
+
+    <select id="findLabellingList" resultType="java.util.HashMap">
+        SELECT l_name,l_id FROM labelling
+    </select>
+
+    <insert id="insertLabelling" useGeneratedKeys="true" keyProperty="l.id"
+            parameterType="Entity.LabellingBean">
+        INSERT INTO labelling(l_name,c_id) VALUE (#{l.name},#{l.cId})
+    </insert>
 </mapper>

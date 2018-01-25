@@ -61,16 +61,6 @@ public class HttpUtil {
                     out.writeBytes(urlencode(params));
                 } catch (Exception e) {
                     // TODO: handle exception
-
-
-
-
-
-
-
-
-
-
                 }
             }
             InputStream is = conn.getInputStream();
